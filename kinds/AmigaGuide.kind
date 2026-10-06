@@ -1,0 +1,8 @@
+# OpenEdit colour kind: AmigaGuide. MIT, Copyright (c) 2026 Dalsin Limited.
+name      AmigaGuide
+files     #?.guide
+firstline @database#?
+case      off
+directive @
+inline    @{ }
+strings   "

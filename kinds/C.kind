@@ -1,0 +1,17 @@
+# OpenEdit colour kind: C and C++. MIT, Copyright (c) 2026 Dalsin Limited.
+name      C
+files     #?.(c|h|cc|cpp|cxx|hpp|hh|m|fd|sfd)
+case      on
+comment   //
+block     /* */
+strings   "'
+escape    \
+directive #
+numbers   on
+keywords  auto break case const continue default do else enum extern for goto if inline
+keywords  register restrict return sizeof static struct switch typedef union volatile while
+keywords  class namespace new delete public private protected template this throw try catch
+keywords  virtual operator using NULL TRUE FALSE true false
+commands  char double float int long short signed unsigned void bool size_t
+commands  BYTE UBYTE WORD UWORD LONG ULONG APTR BPTR STRPTR CONST_STRPTR BOOL VOID
+commands  TEXT FLOAT DOUBLE IPTR Tag TagItem

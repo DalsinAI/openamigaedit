@@ -1,0 +1,10 @@
+# OpenEdit colour kind: makefiles. MIT, Copyright (c) 2026 Dalsin Limited.
+name      Makefile
+files     ((Makefile|makefile|GNUmakefile|SMakefile|DMakefile)#?|#?.(mk|mak))
+case      on
+comment   #
+strings   "'
+variable  $
+labels    colon
+keywords  ifeq ifneq ifdef ifndef else endif include define endef export override vpath
+keywords  .PHONY .SUFFIXES .DEFAULT

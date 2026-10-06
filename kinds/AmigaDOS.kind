@@ -1,0 +1,23 @@
+# OpenEdit colour kind: AmigaDOS scripts. MIT, Copyright (c) 2026 Dalsin Limited.
+name      AmigaDOS script
+paths     (S:|SYS:S/|ENVARC:Sys/|DEVS:DOSDrivers/)#?
+files     (#?.(script|dos|bat)|(Startup-Sequence|User-Startup|Shell-Startup|Network-Startup|CLI-Startup)#?)
+firstline .(key|bra|ket|def|dol|dot|k)#?
+case      off
+comment   ;
+strings   "
+escape    *
+variable  $
+directive .
+labels    after LAB SKIP
+numbers   on
+keywords  IF ELSE ENDIF EQ GT GE NOT WARN ERROR FAIL EXISTS VAL LAB SKIP BACK QUIT ENDSKIP
+keywords  ADD REMOVE DEFER PATH LOCK DISMOUNT QUIET ALL FORCE CLONE BUF BUFFERS TO FROM AS
+keywords  ON OFF RESET CX_POPUP CX_PRIORITY CX_POPKEY NOREQ NOLINE KEY BRA KET DEF DOL DOT
+commands  AddBuffers AddDataTypes Alias Ask Assign Avail Break CD ChangeTaskPri Copy CPU Date
+commands  Delete Dir DiskChange Echo Ed Else EndCLI EndIf EndShell Eval Execute FailAt Fault
+commands  FileNote Get GetEnv Info IPrefs Join LoadMonDrvs LoadResource LoadWB Lock MakeDir
+commands  MakeLink Mount NewCLI NewShell Path Prompt Protect Quit Relabel Rename Resident Run
+commands  Search Set SetClock SetDate SetEnv SetFont SetKeyboard SetPatch Shell Skip Sort Stack
+commands  Status Type UnAlias UnSet UnSetEnv Version Wait WaitForPort Which Why List Lab Copy
+commands  ConClip MountList BindDrivers Install Format DiskCopy Format OpenEdit OpenFiles

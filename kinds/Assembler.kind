@@ -1,0 +1,22 @@
+# OpenEdit colour kind: 68000 assembler (Devpac, PhxAss, vasm). MIT, Copyright (c) 2026 Dalsin Limited.
+name      Assembler
+files     #?.(s|asm|i|a68|68k)
+case      off
+comment   ;
+comment0  *
+strings   "'
+labels    column0
+numbers   on
+suffix    .
+keywords  SECTION CODE DATA BSS CODE_C DATA_C BSS_C CODE_F DATA_F BSS_F XDEF XREF INCLUDE
+keywords  INCBIN INCDIR MACRO ENDM EQU EQUR SET REG DC DS DCB EVEN CNOP RS RSRESET RSSET
+keywords  IFD IFND IFEQ IFNE IFGT IFLT IFGE IFLE ELSE ENDC END OPT MACHINE FPU ALIGN
+commands  abcd add adda addi addq addx and andi asl asr bcc bcs beq bge bgt bhi ble bls blt
+commands  bmi bne bpl bvc bvs bra bsr bchg bclr bset btst chk clr cmp cmpa cmpi cmpm cmp2
+commands  dbcc dbcs dbeq dbf dbge dbgt dbhi dble dbls dblt dbmi dbne dbpl dbra dbt dbvc dbvs
+commands  divs divu divsl divul eor eori exg ext extb illegal jmp jsr lea link lsl lsr move
+commands  movea movem movep moveq moveq muls mulu nbcd neg negx nop not or ori pea reset rol
+commands  ror roxl roxr rte rtr rts sbcd scc scs seq sf sge sgt shi sle sls slt smi sne spl st
+commands  stop sub suba subi subq subx svc svs swap tas trap trapv tst unlk bfchg bfclr bfexts
+commands  bfextu bfffo bfins bfset bftst cas cas2 movec moves pack unpk rtd fmove fadd fsub
+commands  fmul fdiv fsqrt fabs fneg fcmp ftst fbeq fbne fbgt fblt fbge fble fmovem cinva cpusha
