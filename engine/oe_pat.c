@@ -235,3 +235,20 @@ int oe_pat_is_wild(const char *pat)
             return 1;
     return 0;
 }
+
+int oe_strnicmp(const char *a, const char *b, long n)
+{
+    for (; n > 0; n--, a++, b++) {
+        int x = oe_lower((unsigned char)*a), y = oe_lower((unsigned char)*b);
+        if (x != y)
+            return x - y;
+        if (!x)
+            return 0;
+    }
+    return 0;
+}
+
+int oe_stricmp(const char *a, const char *b)
+{
+    return oe_strnicmp(a, b, 0x7fffffffL);
+}

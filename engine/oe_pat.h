@@ -24,7 +24,9 @@ int oe_pat_whole(const char *pat, const char *s, int nocase);
 /* 1 if a pattern uses any of the special characters. */
 int oe_pat_is_wild(const char *pat);
 
-/* ISO-8859-1 lower case. */
+/* ISO-8859-1 lower case, and comparing without case. */
 int oe_lower(int c);
+int oe_strnicmp(const char *a, const char *b, long n);
+int oe_stricmp(const char *a, const char *b);
 
 #endif
