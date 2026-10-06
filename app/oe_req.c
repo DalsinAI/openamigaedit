@@ -280,8 +280,10 @@ int oe_req_unsaved(int *ticked)
 
 /* ---- settings ---- */
 
+/* The classes that have a colour, in the order of OE_C_COMMAND on. A cycle
+ * gadget rather than a list: OpenLook drew the list's rows blank. */
 static const char *const class_names[OE_C_COUNT] = {
-    "Text", "Commands", "Keywords (IF, DO, END)", "Strings", "Variables", "Numbers", "Labels", "Comments"
+    "Commands", "Keywords (IF, DO, END)", "Strings", "Variables", "Numbers", "Labels", "Comments", NULL
 };
 static const char *const scheme_names[] = { "Classic", "Open 4", NULL };
 
@@ -316,21 +318,12 @@ int oe_req_settings(void)
     struct Gadget *glist = NULL, *g, *g_font, *g_r, *g_gg, *g_b;
     struct NewGadget ng;
     struct Window *win;
-    struct List list;
-    struct Node nodes[OE_C_COUNT - 1];
     oe_prefs p = A.prefs;
     int fh = A.fh, bh = fh + 6, pad = 12, lw = tw("Colour scheme") + 16, w = 460, h, top, y, x, done = 0, result = 0;
     int mode = A.ctx.mode == OGT_DARK, sel = 0, cb = fh + 2, col2;
     int sw_x, sw_y, sw_s = 3 * bh;
     char fontname[80];
-    int i;
 
-    NewList(&list);
-    for (i = 0; i < OE_C_COUNT - 1; i++) {
-        memset(&nodes[i], 0, sizeof nodes[i]);
-        nodes[i].ln_Name = (char *)class_names[i + 1];
-        AddTail(&list, &nodes[i]);
-    }
     if (p.font[0])
         snprintf(fontname, sizeof fontname, "%s %d", p.font, p.font_size);
     else
@@ -367,9 +360,10 @@ int oe_req_settings(void)
     g = mk(CHECKBOX_KIND, g, &ng, G_COLOURS, "Colours", col2, y + (bh - cb) / 2, cb, cb, PLACETEXT_RIGHT,
            GTCB_Checked, p.colours, GTCB_Scaled, TRUE, TAG_DONE);
     y += bh + 10;
-    g = mk(LISTVIEW_KIND, g, &ng, G_LIST, NULL, pad, y, 220, 7 * (fh + 2) + 6, 0, GTLV_Labels, (ULONG)&list,
-           GTLV_Selected, sel, GTLV_ShowSelected, 0, TAG_DONE);
-    sw_x = pad + 230;
+    g = mk(CYCLE_KIND, g, &ng, G_LIST, "Colour of", x, y, 220, bh, PLACETEXT_LEFT, GTCY_Labels, (ULONG)class_names,
+           GTCY_Active, sel, TAG_DONE);
+    y += bh + 6;
+    sw_x = x;
     sw_y = y;
     g = g_r = mk(SLIDER_KIND, g, &ng, G_R, "R", sw_x + sw_s + 24, y, w - sw_x - sw_s - 24 - pad - 30, bh, PLACETEXT_LEFT,
                  GTSL_Min, 0, GTSL_Max, 255, GTSL_Level, p.pen[mode][1].r, GTSL_LevelFormat, (ULONG)"%3ld",
@@ -380,14 +374,14 @@ int oe_req_settings(void)
     g = g_b = mk(SLIDER_KIND, g, &ng, G_B, "B", sw_x + sw_s + 24, y + 2 * (bh + 4), w - sw_x - sw_s - 24 - pad - 30, bh,
                  PLACETEXT_LEFT, GTSL_Min, 0, GTSL_Max, 255, GTSL_Level, p.pen[mode][1].b, GTSL_LevelFormat,
                  (ULONG)"%3ld", GTSL_MaxLevelLen, 3, GTSL_LevelPlace, PLACETEXT_RIGHT, GA_RelVerify, TRUE, TAG_DONE);
-    y += 7 * (fh + 2) + 6 + 12;
+    y += sw_s + 12;
     g = mk(BUTTON_KIND, g, &ng, G_CANCEL, "Cancel", pad, y, tw("Cancel") + 24, bh, 0, TAG_DONE);
     g = mk(BUTTON_KIND, g, &ng, G_USE, "Use", w - pad - (tw("Save") + 30) - 8 - (tw("Use") + 30), y, tw("Use") + 30, bh,
            0, TAG_DONE);
     g = mk(BUTTON_KIND, g, &ng, G_SAVE, "Save", w - pad - (tw("Save") + 30), y, tw("Save") + 30, bh, 0, TAG_DONE);
     h = y + bh + pad;
     if (!g || !(win = open_req("OpenEdit settings", w, h, glist,
-                               BUTTONIDCMP | CHECKBOXIDCMP | CYCLEIDCMP | LISTVIEWIDCMP | SLIDERIDCMP | INTEGERIDCMP))) {
+                               BUTTONIDCMP | CHECKBOXIDCMP | CYCLEIDCMP | SLIDERIDCMP | INTEGERIDCMP))) {
         FreeGadgets(glist);
         return 0;
     }

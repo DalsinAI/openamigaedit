@@ -1140,6 +1140,10 @@ static void typed(UBYTE c, UWORD qual)
     oe_tab *t = cur_tab();
     oe_doc *d = &t->d;
     snap s;
+    /* An Amiga key with no menu shortcut: Intuition passes it on, but it
+     * isn't typing. */
+    if (qual & (IEQUALIFIER_LCOMMAND | IEQUALIFIER_RCOMMAND))
+        return;
     take(&s);
     switch (c) {
     case 8:
@@ -1298,7 +1302,9 @@ static void gadget_event(struct Gadget *g, UWORD code, ULONG cl)
         oe_scroll_to(code);
         break;
     case G_FIND:
-        if (cl == IDCMP_GADGETUP && code != 9) {
+        if (cl == IDCMP_GADGETUP && code == 27)
+            hide_find();
+        else if (cl == IDCMP_GADGETUP && code != 9) {
             read_find_fields();
             oe_find_next(0, 1);
             if (A.g_find)
@@ -1306,7 +1312,9 @@ static void gadget_event(struct Gadget *g, UWORD code, ULONG cl)
         }
         break;
     case G_REPL:
-        if (cl == IDCMP_GADGETUP && code != 9)
+        if (cl == IDCMP_GADGETUP && code == 27)
+            hide_find();
+        else if (cl == IDCMP_GADGETUP && code != 9)
             replace_one();
         break;
     case G_NEXT:

@@ -13,12 +13,16 @@
 #include <intuition/gadgetclass.h>
 #include <libraries/gadtools.h>
 #include <graphics/gfxmacros.h>
+#include <intuition/sghooks.h>
+#include <utility/hooks.h>
+#include <devices/inputevent.h>
 #include <dos/dos.h>
 #include <proto/exec.h>
 #include <proto/intuition.h>
 #include <proto/gadtools.h>
 #include <proto/graphics.h>
 #include <proto/dos.h>
+#include <clib/alib_protos.h>
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -118,6 +122,24 @@ static void drop_hots(int kind_from, int kind_to)
 }
 
 /* ---- layout and gadgets ---- */
+
+/* The find bar's fields: Esc ends editing with code 27 (the bar closes),
+ * and an Amiga key that isn't a shortcut types nothing. */
+static ULONG field_keys(struct Hook *h, struct SGWork *sgw, ULONG *msg)
+{
+    (void)h;
+    if (*msg != SGH_KEY || !sgw->IEvent)
+        return 0;
+    if (sgw->IEvent->ie_Code == 0x45) {
+        sgw->Actions = (sgw->Actions & ~SGA_USE) | SGA_END;
+        sgw->Code = 27;
+    } else if ((sgw->IEvent->ie_Qualifier & (IEQUALIFIER_LCOMMAND | IEQUALIFIER_RCOMMAND)) &&
+               (sgw->EditOp == EO_INSERTCHAR || sgw->EditOp == EO_REPLACECHAR))
+        sgw->Actions &= ~SGA_USE;
+    return 1;
+}
+
+static struct Hook field_hook = { { NULL, NULL }, (HOOKFUNC)HookEntry, (HOOKFUNC)field_keys, NULL };
 
 void oe_remove_gadgets(void)
 {
@@ -228,7 +250,8 @@ void oe_layout(void)
         if (strw < 80)
             strw = 80;
         g = A.g_find = mk(STRING_KIND, g, &ng, G_FIND, "Find", x, y1, strw, bh, PLACETEXT_LEFT,
-                          GTST_String, (ULONG)A.find_text, GTST_MaxChars, sizeof A.find_text - 1, TAG_DONE);
+                          GTST_String, (ULONG)A.find_text, GTST_MaxChars, sizeof A.find_text - 1,
+                          GTST_EditHook, (ULONG)&field_hook, TAG_DONE);
         cx = x + strw + 6;
         g = mk(BUTTON_KIND, g, &ng, G_PREV, "Prev", cx, y1, bw_prev, bh, 0, TAG_DONE);
         cx += bw_prev + 4;
@@ -247,7 +270,8 @@ void oe_layout(void)
                          GTCB_Checked, A.f_pat, GTCB_Scaled, TRUE, TAG_DONE);
         g = mk(BUTTON_KIND, g, &ng, G_CLOSE, "Close", right - bw_close, y1, bw_close, bh, 0, TAG_DONE);
         g = A.g_repl = mk(STRING_KIND, g, &ng, G_REPL, "Replace", x, y2, strw, bh, PLACETEXT_LEFT,
-                          GTST_String, (ULONG)A.repl_text, GTST_MaxChars, sizeof A.repl_text - 1, TAG_DONE);
+                          GTST_String, (ULONG)A.repl_text, GTST_MaxChars, sizeof A.repl_text - 1,
+                          GTST_EditHook, (ULONG)&field_hook, TAG_DONE);
         cx = x + strw + 6;
         g = mk(BUTTON_KIND, g, &ng, G_REPL1, "Replace", cx, y2, bw_r, bh, 0, TAG_DONE);
         cx += bw_r + 4;
@@ -327,8 +351,9 @@ void oe_draw_tabs(void)
                 ogt_box(rp, pen("muted"), cx + k, cy + k, 1, 1);
                 ogt_box(rp, pen("muted"), cx + k, cy - k, 1, 1);
             }
-        oe_add_hot(cx - s - 3, cy - s - 3, 2 * s + 7, 2 * s + 7, HOT_TABCLOSE, i);
+        /* oe_hot_at looks at the newest first: the cross goes on top of its tab. */
         oe_add_hot(x, ty, tw, th, HOT_TAB, i);
+        oe_add_hot(cx - s - 4, ty, 2 * s + 9, th, HOT_TABCLOSE, i);
         x += tw + 2;
     }
     ogt_fill(&A.ctx, rp, "tab", x, y + 2, plus_w, th - 2);
