@@ -139,7 +139,8 @@ static ULONG field_keys(struct Hook *h, struct SGWork *sgw, ULONG *msg)
     return 1;
 }
 
-static struct Hook field_hook = { { NULL, NULL }, (HOOKFUNC)HookEntry, (HOOKFUNC)field_keys, NULL };
+/* h_Entry is ULONG (*)() while NDK 3.2's HOOKFUNC is unsigned long (*)(): cast to the field's own type */
+static struct Hook field_hook = { { NULL, NULL }, (ULONG (*)())HookEntry, (ULONG (*)())field_keys, NULL };
 
 void oe_remove_gadgets(void)
 {
