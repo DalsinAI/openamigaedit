@@ -27,7 +27,13 @@ in 16 colours with Topaz 8 up to 1920x1080 OpenRTG.
 
 ## Text engine
 
-- Our own text area on OpenGadTools. No MUI, no TextEditor.mcc.
+- GadTools only: the window, menus, find bar and settings use gadtools.library
+  from AmigaOS 3.2.3. No MUI, no BOOPSI class libraries, no TextEditor.mcc.
+  Nothing to install beyond the OS. With OpenUp present, OpenLook gives the
+  gadgets the theme's look (linked in from OpenGadTools, not a separate library);
+  without it OpenEdit runs with the plain GadTools look.
+- The text area is our own code drawing into the window, since GadTools has no
+  multi-line text gadget.
 - Buffer: a gap buffer per file plus a line-start index; undo as a list of
   insert/delete records grouped by typing pause. Files to several MB stay quick
   on a 68040.
@@ -97,7 +103,7 @@ every OpenPrefs editor.
 
 1. Replace by default, keep the old ones (ENV:EDITOR + OpenTypes; C:Ed and
    TextEdit stay). Recommended.
-2. Our own text area on OpenGadTools, no MUI. Recommended.
+2. GadTools only, nothing else to install; our own text area. Recommended.
 3. Tabs in one window, one copy running. Recommended.
 4. First eight colour kinds as listed. Recommended.
 5. ISO-8859-1 default, UTF-8 when the file says so; keep line ends. Recommended.
