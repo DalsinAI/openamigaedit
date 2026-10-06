@@ -15,19 +15,25 @@ in 16 colours with Topaz 8 up to 1920x1080 OpenRTG.
 ## Window
 
 - One window, a tab per file (the OpenFiles model). A dot on a tab marks unsaved
-  changes. Opening a file that is already open goes to its tab. A tab can be
-  dragged out into its own window.
+  changes. Opening a file that is already open goes to its tab. Dragging a tab out
+  into its own window comes in phase 2.
 - Menus: Project, Edit, Search, View, Tools, Settings.
 - Line number gutter and current-line highlight (both switchable).
 - Find and replace bar under the text, not a separate window. Match case, whole
-  words, AmigaDOS patterns (`#?`), All tabs. Matches are marked in the text and in
-  the scroller.
+  words, AmigaDOS patterns (`#?`), All tabs. Matches are marked in the text and
+  counted in the bar ("3 of 12").
 - Status line: Line/Col, line count, colour kind, character set and line ends,
   Insert/Overwrite, saved state. Clicking a part changes it.
 
 ## Text engine
 
-- Our own text area on OpenGadTools. No MUI, no TextEditor.mcc.
+- GadTools only: the window, menus, find bar and settings use gadtools.library
+  from AmigaOS 3.2.3. No MUI, no BOOPSI class libraries, no TextEditor.mcc.
+  Nothing to install beyond the OS. With OpenUp present, OpenLook gives the
+  gadgets the theme's look (linked in from OpenGadTools, not a separate library);
+  without it OpenEdit runs with the plain GadTools look.
+- The text area is our own code drawing into the window, since GadTools has no
+  multi-line text gadget.
 - Buffer: a gap buffer per file plus a line-start index; undo as a list of
   insert/delete records grouped by typing pause. Files to several MB stay quick
   on a 68040.
@@ -40,8 +46,10 @@ in 16 colours with Topaz 8 up to 1920x1080 OpenRTG.
 
 ## Colours
 
-- The kind comes from OpenTypes (the same lookup OpenFiles uses), with the file's
-  extension as a fallback.
+- The kind is picked from the file's path and name, then its first line (`#!`,
+  `/* ARexx */`, `@database`). Phase 1 uses the name patterns in each kind file;
+  asking OpenTypes first comes once OpenTypes offers a lookup other programs can
+  call.
 - Kinds are small text files in `ENVARC:OpenEdit/Kinds/` (keywords, comment marks,
   string marks, number and variable rules). First set: AmigaDOS script, ARexx, C,
   Assembler (Devpac), AmigaGuide, HTML, Lua, Makefile. Adding a kind needs no
@@ -61,18 +69,19 @@ found. UTF-8 characters the font lacks show as a box and are saved back unchange
 
 Write a temporary file beside the target, then rename it over the old one, so a
 crash or a full disk never leaves a half-written file. Files in S: and DEVS: keep
-the previous version as `.bak`. Protection bits, comment and date are carried over.
+the previous version as `.bak`. Protection bits and comment are carried over; the date is the save's.
 Closing a window with changes asks once for all tabs.
 
 ## Shell and ARexx
 
 Template: `FILES/M,LINE/N,WAIT/S,READONLY/S,NEW/S,PUBSCREEN/K`.
 
-- Single copy: a second start hands its files to the running copy through the
-  ARexx port and exits (or, with WAIT, waits for those tabs to close).
+- Single copy: a second start hands its files to the running copy through its
+  public port `OpenEdit` and exits (or, with WAIT, waits for those tabs to close).
+  A start from the Shell with no copy running starts one in the background.
 - `WAIT` lets scripts and tools that call `$EDITOR` keep working.
-- ARexx port `OPENEDIT`: OPEN, SAVE, SAVEAS, CLOSE, GOTO, FIND, REPLACE, INSERT,
-  GETTEXT, GETLINE, QUIT.
+- ARexx port `OPENEDIT`: OPEN, NEW, FRONT, SAVE, SAVEAS, CLOSE, TAB, GOTO, FIND,
+  REPLACEALL, INSERT, GETTEXT, GETLINE, GETFILE, GETPOS, QUIT.
 
 ## Settings
 
@@ -91,13 +100,14 @@ every OpenPrefs editor.
 
 1. Tabs, undo/redo, cut/copy/paste (clipboard.device), find and replace, colours,
    Shell and ARexx use, safe save, settings.
-2. Split view, bookmarks, compare two files, recorded macros.
+2. Split view, bookmarks, compare two files, recorded macros, dragging a tab out
+   into its own window.
 
 ## Decisions (recommended options first)
 
 1. Replace by default, keep the old ones (ENV:EDITOR + OpenTypes; C:Ed and
    TextEdit stay). Recommended.
-2. Our own text area on OpenGadTools, no MUI. Recommended.
+2. GadTools only, nothing else to install; our own text area. Recommended.
 3. Tabs in one window, one copy running. Recommended.
 4. First eight colour kinds as listed. Recommended.
 5. ISO-8859-1 default, UTF-8 when the file says so; keep line ends. Recommended.

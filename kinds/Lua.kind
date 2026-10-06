@@ -1,0 +1,14 @@
+# OpenEdit colour kind: Lua. MIT, Copyright (c) 2026 Dalsin Limited.
+name      Lua
+files     #?.lua
+firstline #!#?lua#?
+case      on
+block     --[[ ]]
+comment   --
+strings   "'
+escape    \
+numbers   on
+keywords  and break do else elseif end false for function goto if in local nil not or
+keywords  repeat return then true until while
+commands  assert error ipairs next pairs pcall print rawget rawset require select setmetatable
+commands  getmetatable tonumber tostring type unpack string table math io os

@@ -1,0 +1,8 @@
+# OpenEdit colour kind: HTML and XML. MIT, Copyright (c) 2026 Dalsin Limited.
+name      HTML
+files     #?.(html|htm|xml|svg|xhtml)
+firstline (<!DOCTYPE|<?xml|<html)#?
+case      off
+block     <!-- -->
+tags      on
+variable  &
