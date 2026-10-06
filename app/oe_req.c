@@ -16,6 +16,7 @@
 #include <proto/graphics.h>
 #include <proto/asl.h>
 #include <proto/dos.h>
+#include <clib/alib_protos.h>
 
 #include <stdarg.h>
 #include <stdio.h>
