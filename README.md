@@ -58,3 +58,7 @@ width, spaces for tabs, auto-indent, line numbers, current line, colours, and a
 colour per class for light and dark themes.
 
 MIT licence, © 2026 Dalsin Limited.
+
+## Contributors
+
+OpenEdit is created and maintained by [SacredTrees](https://github.com/SacredTrees) with the AmigaChrome agent team, copyright Dalsin Limited. Everyone whose work it includes is credited in [`CONTRIBUTORS.md`](CONTRIBUTORS.md).
