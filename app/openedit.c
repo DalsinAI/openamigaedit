@@ -541,6 +541,10 @@ static int ndigits(long n)
 static void take(snap *s)
 {
     oe_doc *d = cur_doc();
+    if (!d) {                   /* no tab open: refresh() draws nothing then */
+        memset(s, 0, sizeof *s);
+        return;
+    }
     s->lines = oe_doc_lines(d);
     s->top = d->top;
     s->caret = d->caret;
@@ -730,12 +734,11 @@ static void replace_all(void)
 
 /* ---- character sets ---- */
 
-static void set_charset(int cs)
+static void set_charset(oe_doc *d, int cs)
 {
-    oe_doc *d = cur_doc();
     long n, i, o = 0;
     char *t, *u;
-    if (d->cs == cs)
+    if (!d || d->cs == cs)
         return;
     if (!(t = oe_doc_text(d, 0, oe_doc_len(d), &n)))
         return;
@@ -781,6 +784,8 @@ static void insert_text(const char *s, long n)
 {
     oe_doc *d = cur_doc();
     snap sn;
+    if (!d)
+        return;
     take(&sn);
     if (d->cs == OE_CS_UTF8) {
         /* The clipboard and the keyboard speak ISO-8859-1. */
@@ -1024,7 +1029,7 @@ void oe_command(int cmd)
         break;
     case C_LATIN1:
     case C_UTF8:
-        set_charset(cmd == C_UTF8 ? OE_CS_UTF8 : OE_CS_LATIN1);
+        set_charset(d, cmd == C_UTF8 ? OE_CS_UTF8 : OE_CS_LATIN1);
         refresh_all();
         break;
     case C_LF:
