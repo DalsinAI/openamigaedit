@@ -237,7 +237,7 @@ static struct NewMenu tail_menu[] = {
     { NM_SUB, (STRPTR)"UTF-8", 0, CHECKIT, 0, (APTR)C_UTF8 },
     { NM_ITEM, (STRPTR)"Line ends", 0, 0, 0, 0 },
     { NM_SUB, (STRPTR)"LF (Amiga)", 0, CHECKIT, 0, (APTR)C_LF },
-    { NM_SUB, (STRPTR)"CR LF (PC)", 0, CHECKIT, 0, (APTR)C_CRLF },
+    { NM_SUB, (STRPTR)"CR LF (Windows)", 0, CHECKIT, 0, (APTR)C_CRLF },
     { NM_SUB, (STRPTR)"CR (old Mac)", 0, CHECKIT, 0, (APTR)C_CR },
     { NM_ITEM, (STRPTR)"Read only", 0, CHECKIT | MENUTOGGLE, 0, (APTR)C_READONLY },
     { NM_TITLE, (STRPTR)"Settings", 0, 0, 0, 0 },
