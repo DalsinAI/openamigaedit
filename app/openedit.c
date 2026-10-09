@@ -12,7 +12,7 @@
  *
  * MIT, Copyright (c) 2026 Dalsin Limited. */
 
-static const char version[] = "$VER: OpenEdit " "0.1" " (6.10.2026) MIT, Copyright (c) 2026 Dalsin Limited";
+static const char version[] __attribute__((used)) = "$VER: OpenEdit " "0.1" " (6.10.2026) MIT, Copyright (c) 2026 Dalsin Limited";
 
 #include <exec/types.h>
 #include <exec/memory.h>
