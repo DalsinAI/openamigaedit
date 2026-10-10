@@ -17,8 +17,8 @@
 #include "oe_doc.h"
 #include "oe_syntax.h"
 
-#define OE_VERSION "0.1"
-#define OE_DATE "6.10.2026"
+#define OE_VERSION "0.1.1"
+#define OE_DATE "10.10.2026"
 #define MAX_DOCS 32
 #define MAX_KINDS 32
 #define PORT_OPEN "OpenEdit"        /* a second start hands its files over here */

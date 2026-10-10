@@ -12,7 +12,7 @@
  *
  * MIT, Copyright (c) 2026 Dalsin Limited. */
 
-static const char version[] __attribute__((used)) = "$VER: OpenEdit " "0.1" " (6.10.2026) MIT, Copyright (c) 2026 Dalsin Limited";
+static const char version[] __attribute__((used)) = "$VER: OpenEdit " "0.1.1" " (10.10.2026) MIT, Copyright (c) 2026 Dalsin Limited";
 
 #include <exec/types.h>
 #include <exec/memory.h>
@@ -20,6 +20,7 @@ static const char version[] __attribute__((used)) = "$VER: OpenEdit " "0.1" " (6
 #include <dos/dos.h>
 #include <dos/dosextens.h>
 #include <dos/dostags.h>
+#include <dos/var.h>
 #include <intuition/intuition.h>
 #include <intuition/gadgetclass.h>
 #include <libraries/gadtools.h>
@@ -1565,9 +1566,77 @@ static int start_server(const char *pubscreen)
 
 /* ---- the window ---- */
 
+/* The part of the screen a full-size window may have: below the title bar,
+ * less the strip OpenDock takes along an edge (OpenFiles' free_area(), copied
+ * here). OpenDock's window is the one whose screen title starts "OpenDock";
+ * an ENV:OpenDock/Free of "left top width height" wins when the dock
+ * publishes one. Without a dock it is the screen less its title bar. */
+static void free_area(int *l, int *t, int *w, int *h)
+{
+    char buf[48];
+    struct Window *dw;
+    ULONG lock;
+    LONG got;
+    int top = A.scr->BarHeight + 1, bottom = A.scr->Height, left = 0, right = A.scr->Width, a, b, c, d;
+    got = GetVar((STRPTR)"OpenDock/Free", (STRPTR)buf, sizeof buf, GVF_GLOBAL_ONLY);
+    if (got > 0 && sscanf(buf, "%d %d %d %d", &a, &b, &c, &d) == 4 && c >= 400 && d >= 200 && a >= 0 && b >= 0 &&
+        a + c <= A.scr->Width && b + d <= A.scr->Height) {
+        *l = a;
+        *t = b < top ? top : b;
+        *w = c;
+        *h = b + d - *t;
+        return;
+    }
+    lock = LockIBase(0);
+    for (dw = A.scr->FirstWindow; dw; dw = dw->NextWindow) {
+        if (!dw->ScreenTitle || strncmp((const char *)dw->ScreenTitle, "OpenDock", 8) != 0)
+            continue;
+        if (dw->Width >= dw->Height) {              /* along the top or the bottom */
+            if (dw->TopEdge + dw->Height / 2 > A.scr->Height / 2) {
+                if (dw->TopEdge < bottom)
+                    bottom = dw->TopEdge;
+            } else if (dw->TopEdge + dw->Height > top)
+                top = dw->TopEdge + dw->Height;
+        } else {                                    /* down the left or the right */
+            if (dw->LeftEdge + dw->Width / 2 > A.scr->Width / 2) {
+                if (dw->LeftEdge < right)
+                    right = dw->LeftEdge;
+            } else if (dw->LeftEdge + dw->Width > left)
+                left = dw->LeftEdge + dw->Width;
+        }
+    }
+    UnlockIBase(lock);
+    if (right - left < 400 || bottom - top < 200) { /* a dock that big: use the whole screen */
+        left = 0;
+        right = A.scr->Width;
+        top = A.scr->BarHeight + 1;
+        bottom = A.scr->Height;
+    }
+    *l = left;
+    *t = top;
+    *w = right - left;
+    *h = bottom - top;
+}
+
+/* The first size (the user, 10 October 2026, as in OpenFiles 0.2.3): 800 x
+ * 600, centred in the free area, and never bigger than it, so on a screen
+ * smaller than 800 x 600 it is the free area itself. A size the user gives
+ * the window is kept and given back by OpenWindows. */
+#define START_W 800
+#define START_H 600
+static void start_box(int *l, int *t, int *w, int *h)
+{
+    int al, at, aw, ah;
+    free_area(&al, &at, &aw, &ah);
+    *w = aw < START_W ? aw : START_W;
+    *h = ah < START_H ? ah : START_H;
+    *l = al + (aw - *w) / 2;
+    *t = at + (ah - *h) / 2;
+}
+
 static int open_window(const char *pubscreen)
 {
-    int mode;
+    int mode, l, t, w, h;
     if (!load_theme(&mode))
         return 0;
     if (!(A.scr = LockPubScreen((CONST_STRPTR)(pubscreen && pubscreen[0] ? pubscreen : NULL))) &&
@@ -1585,8 +1654,9 @@ static int open_window(const char *pubscreen)
     oe_obtain_pens();
     if (!build_menus())
         return 0;
-    A.win = OpenWindowTags(NULL, WA_Left, 0, WA_Top, A.scr->BarHeight + 1, WA_Width, A.scr->Width,
-                           WA_Height, A.scr->Height - A.scr->BarHeight - 1, WA_MinWidth, 320, WA_MinHeight, 150,
+    start_box(&l, &t, &w, &h);          /* 800 x 600 in the free area, or the free area when smaller */
+    A.win = OpenWindowTags(NULL, WA_Left, l, WA_Top, t, WA_Width, w,
+                           WA_Height, h, WA_MinWidth, 320, WA_MinHeight, 150,
                            WA_MaxWidth, ~0, WA_MaxHeight, ~0, WA_Title, (ULONG)"OpenEdit",
                            WA_ScreenTitle, (ULONG)"OpenEdit " OE_VERSION, WA_PubScreen, (ULONG)A.scr,
                            WA_NewLookMenus, TRUE, WA_DragBar, TRUE, WA_DepthGadget, TRUE, WA_CloseGadget, TRUE,
