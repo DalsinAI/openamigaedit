@@ -24,6 +24,7 @@
 
 #include "oe_app.h"
 #include "oe_pat.h"
+#include "lastdir.h"
 
 struct Library *AslBase;
 struct Library *IFFParseBase;
@@ -163,6 +164,8 @@ int oe_ask_file(int save, const char *title, char *path, int size)
         drawer[dn] = 0;
         snprintf(file, sizeof file, "%s", fp);
     }
+    if (!drawer[0])
+        lastdir_get("OpenEdit", drawer, sizeof drawer);     /* a new document: where the last was */
     fr = AllocAslRequestTags(ASL_FileRequest, ASLFR_Window, (ULONG)A.win, ASLFR_SleepWindow, TRUE,
                              ASLFR_TitleText, (ULONG)title, ASLFR_InitialDrawer, (ULONG)drawer,
                              ASLFR_InitialFile, (ULONG)file, ASLFR_DoSaveMode, save, ASLFR_RejectIcons, TRUE,
@@ -172,6 +175,7 @@ int oe_ask_file(int save, const char *title, char *path, int size)
     if (AslRequest(fr, NULL) && fr->fr_File && fr->fr_File[0]) {
         snprintf(path, size, "%s", (char *)fr->fr_Drawer);
         ok = AddPart((STRPTR)path, fr->fr_File, size) != 0;
+        lastdir_put("OpenEdit", (const char *)fr->fr_Drawer);
     }
     FreeAslRequest(fr);
     return ok;
