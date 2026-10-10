@@ -14,6 +14,12 @@ in 16 colours with Topaz 8 up to 1920x1080 OpenRTG.
 
 ## Window
 
+- The window first opens at 800 x 600, centred in the screen's free area (below
+  the title bar and beside OpenDock), and never larger than that area, so on a
+  screen smaller than 800 x 600 it is the whole free area (the rule for every
+  Open app, 10 October 2026, as in OpenFiles 0.2.3). A size the user gives it
+  is kept: OpenWindows remembers it. OpenEdit has no toolbar, so the other half
+  of that rule (toolbars start with icons only) does not apply.
 - One window, a tab per file (the OpenFiles model). A dot on a tab marks unsaved
   changes. Opening a file that is already open goes to its tab. Dragging a tab out
   into its own window comes in phase 2.
