@@ -8,6 +8,10 @@ Runs on a 68040 with FPU under AmigaOS 3.2.3 with OpenUp, without OpenGPU.
 
 Status: phase 1 written, waiting on its first m68k build. See [DESIGN.md](DESIGN.md).
 
+New in 0.1.1 (10 October 2026): the window first opens at 800 x 600, in the
+middle of the space beside OpenDock (or all of that space on a smaller
+screen), instead of filling the screen. A size you give it is kept.
+
 ## Building
 
 With the os32 stove and OpenGadTools checked out beside this repo:
