@@ -1,4 +1,4 @@
-# OpenEdit colour kind: ARexx. MIT, Copyright (c) 2026 Dalsin Limited.
+# OpenEdit colour kind: ARexx. MIT, Copyright (c) 2026 AmigaChrome Team.
 name      ARexx
 files     #?.(rexx|rx|ced|ged|amirx|thor|ow|oe)
 paths     REXX:#?

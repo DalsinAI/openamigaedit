@@ -10,7 +10,7 @@
  *   scheme Classic
  *   light.string #a0461f       (a colour per class, light and dark)
  *
- * MIT, Copyright (c) 2026 Dalsin Limited. */
+ * MIT, Copyright (c) 2026 AmigaChrome Team. */
 #include <exec/types.h>
 #include <dos/dos.h>
 #include <proto/exec.h>

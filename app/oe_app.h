@@ -3,7 +3,7 @@
  * is GadTools, drawn in the OpenLook theme through OpenGadTools' drawing
  * code (linked in, no extra library).
  *
- * MIT, Copyright (c) 2026 Dalsin Limited. */
+ * MIT, Copyright (c) 2026 AmigaChrome Team. */
 #ifndef OE_APP_H
 #define OE_APP_H
 

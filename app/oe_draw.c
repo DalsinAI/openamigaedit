@@ -7,7 +7,7 @@
  * same colour. A keystroke redraws only its line; scrolling moves what is
  * already drawn with ScrollRaster() and draws the lines that come in.
  *
- * MIT, Copyright (c) 2026 Dalsin Limited. */
+ * MIT, Copyright (c) 2026 AmigaChrome Team. */
 #include <exec/types.h>
 #include <intuition/intuition.h>
 #include <intuition/gadgetclass.h>
