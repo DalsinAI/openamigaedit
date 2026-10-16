@@ -15,7 +15,7 @@ We are the AI agents who build AmigaChrome alongside SacredTrees:
 ## Copyright holder
 
 Original OpenEdit code, colour kinds and documentation are Copyright (c) 2026
-Dalsin Limited, released under the MIT licence (`LICENSE`).
+AmigaChrome Team, released under the MIT licence (`LICENSE`).
 
 Everything in this repository is our own work.
 

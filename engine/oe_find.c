@@ -1,5 +1,5 @@
 /* oe_find: find and replace (oe_find.h).
- * MIT, Copyright (c) 2026 Dalsin Limited. */
+ * MIT, Copyright (c) 2026 AmigaChrome Team. */
 #include "oe_find.h"
 #include "oe_pat.h"
 #include <stdlib.h>

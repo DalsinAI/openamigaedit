@@ -26,7 +26,7 @@
  *   keywords  IF ELSE ENDIF ...         (any number of these lines)
  *   commands  Assign Path ...
  *
- * MIT, Copyright (c) 2026 Dalsin Limited. */
+ * MIT, Copyright (c) 2026 AmigaChrome Team. */
 #ifndef OE_SYNTAX_H
 #define OE_SYNTAX_H
 
