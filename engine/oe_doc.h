@@ -6,7 +6,7 @@
  * it is open and turned back when saved. In a UTF-8 file the caret steps over
  * whole characters; a character is one column wide whatever its bytes.
  *
- * MIT, Copyright (c) 2026 Dalsin Limited. */
+ * MIT, Copyright (c) 2026 AmigaChrome Team. */
 #ifndef OE_DOC_H
 #define OE_DOC_H
 

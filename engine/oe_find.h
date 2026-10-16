@@ -1,7 +1,7 @@
 /* oe_find: find and replace in a document, a line at a time (a match never
  * crosses a line end). Plain C, tested on the host.
  *
- * MIT, Copyright (c) 2026 Dalsin Limited. */
+ * MIT, Copyright (c) 2026 AmigaChrome Team. */
 #ifndef OE_FIND_H
 #define OE_FIND_H
 

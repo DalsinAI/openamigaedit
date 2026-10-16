@@ -1,4 +1,4 @@
-# OpenEdit colour kind: AmigaDOS scripts. MIT, Copyright (c) 2026 Dalsin Limited.
+# OpenEdit colour kind: AmigaDOS scripts. MIT, Copyright (c) 2026 AmigaChrome Team.
 name      AmigaDOS script
 paths     (S:|SYS:S/|ENVARC:Sys/|DEVS:DOSDrivers/)#?
 files     (#?.(script|dos|bat)|(Startup-Sequence|User-Startup|Shell-Startup|Network-Startup|CLI-Startup)#?)

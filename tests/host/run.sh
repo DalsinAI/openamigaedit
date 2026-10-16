@@ -1,6 +1,6 @@
 #!/bin/sh
 # OpenEdit host tests: the engine, built for the machine running them.
-# MIT, Copyright (c) 2026 Dalsin Limited.
+# MIT, Copyright (c) 2026 AmigaChrome Team.
 set -eu
 HERE=$(cd "$(dirname "$0")/../.." && pwd)
 OUT=${TMPDIR:-/tmp}/openedit-host-tests

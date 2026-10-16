@@ -1,4 +1,4 @@
-# OpenEdit colour kind: makefiles. MIT, Copyright (c) 2026 Dalsin Limited.
+# OpenEdit colour kind: makefiles. MIT, Copyright (c) 2026 AmigaChrome Team.
 name      Makefile
 files     ((Makefile|makefile|GNUmakefile|SMakefile|DMakefile)#?|#?.(mk|mak))
 case      on

@@ -6,7 +6,7 @@
  * text is one lookup; an edit moves the starts after it (one pass over the
  * index, which stays quick on a 68040 for files of many thousand lines).
  *
- * MIT, Copyright (c) 2026 Dalsin Limited. */
+ * MIT, Copyright (c) 2026 AmigaChrome Team. */
 #ifndef OE_BUF_H
 #define OE_BUF_H
 

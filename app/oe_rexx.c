@@ -10,7 +10,7 @@
  * RESULTS); a command that can't be done returns 10, FIND that finds
  * nothing returns 5.
  *
- * MIT, Copyright (c) 2026 Dalsin Limited. */
+ * MIT, Copyright (c) 2026 AmigaChrome Team. */
 #include <exec/types.h>
 #include <exec/ports.h>
 #include <rexx/storage.h>

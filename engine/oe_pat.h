@@ -10,7 +10,7 @@
  *   (a|b)    either; % matches nothing, as in (s|%)
  *   'x       x itself, for the characters above
  *
- * MIT, Copyright (c) 2026 Dalsin Limited. */
+ * MIT, Copyright (c) 2026 AmigaChrome Team. */
 #ifndef OE_PAT_H
 #define OE_PAT_H
 
