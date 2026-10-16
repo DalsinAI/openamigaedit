@@ -1,4 +1,4 @@
-# OpenEdit colour kind: C and C++. MIT, Copyright (c) 2026 Dalsin Limited.
+# OpenEdit colour kind: C and C++. MIT, Copyright (c) 2026 AmigaChrome Team.
 name      C
 files     #?.(c|h|cc|cpp|cxx|hpp|hh|m|fd|sfd)
 case      on

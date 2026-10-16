@@ -1,4 +1,4 @@
-# OpenEdit colour kind: Lua. MIT, Copyright (c) 2026 Dalsin Limited.
+# OpenEdit colour kind: Lua. MIT, Copyright (c) 2026 AmigaChrome Team.
 name      Lua
 files     #?.lua
 firstline #!#?lua#?

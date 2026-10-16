@@ -2,7 +2,7 @@
  * the unsaved-changes list, and Settings. GadTools, on the window's screen,
  * in the theme's font; each runs until answered.
  *
- * MIT, Copyright (c) 2026 Dalsin Limited. */
+ * MIT, Copyright (c) 2026 AmigaChrome Team. */
 #include <exec/types.h>
 #include <exec/lists.h>
 #include <exec/nodes.h>

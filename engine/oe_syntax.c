@@ -1,5 +1,5 @@
 /* oe_syntax: colour kinds (oe_syntax.h).
- * MIT, Copyright (c) 2026 Dalsin Limited. */
+ * MIT, Copyright (c) 2026 AmigaChrome Team. */
 #include "oe_syntax.h"
 #include "oe_pat.h"
 #include <stdlib.h>

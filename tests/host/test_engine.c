@@ -1,5 +1,5 @@
 /* OpenEdit host tests: the engine (buffer, document, undo, find, patterns,
- * colour kinds). MIT, Copyright (c) 2026 Dalsin Limited. */
+ * colour kinds). MIT, Copyright (c) 2026 AmigaChrome Team. */
 #include "oe_buf.h"
 #include "oe_doc.h"
 #include "oe_find.h"
