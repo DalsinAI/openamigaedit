@@ -1,7 +1,7 @@
 # OpenEdit design, v0.1
 
 Team, 6 October 2026. Design only; nothing is built until the screens are approved.
-Mockup: (mockup link removed)
+Mockup: in the Team's design archive.
 
 ## What it is
 
