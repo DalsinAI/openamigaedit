@@ -8,7 +8,7 @@ OpenEdit, the plain text editor for OpenUp in place of TextEdit and Ed: tabs, fi
 
 ## Where it stands
 
-Phase 1 is merged (#1) and ships in OpenUp 0.6.13; Main Discourse built it on the home PC (104,336 bytes, no warnings). The repo's default branch is still claude/project-thread-1bw5tr; main also exists at 672f0ef. This restart note is on both.
+Phase 1 is merged (#1) and ships in OpenUp 0.6.13; Main Discourse built it on the home PC (104,336 bytes, no warnings). The repo's default branch is main.
 
 ## Merged lately
 
@@ -22,13 +22,11 @@ Phase 1 is merged (#1) and ships in OpenUp 0.6.13; Main Discourse built it on th
 ## Next step
 
 1. Route text files to OpenEdit in OpenTypes and set ENV:EDITOR to "C:OpenEdit WAIT" (Main Discourse packaging).
-2. Make main the default branch.
-3. Phase 2: split view, bookmarks, compare, macros.
+2. Phase 2: split view, bookmarks, compare, macros.
 
 ## Waiting on @SacredTrees
 
 - The go for phase 2.
-- OK to switch the default branch to main.
 
 ## Who owns it
 
