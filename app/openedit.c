@@ -33,7 +33,6 @@ static const char version[] __attribute__((used)) = "$VER: OpenEdit " "0.1.2" " 
 #include <proto/intuition.h>
 #include <proto/gadtools.h>
 #include <proto/graphics.h>
-#include <proto/diskfont.h>
 
 #include <stdarg.h>
 #include <stdio.h>
@@ -45,10 +44,11 @@ static const char version[] __attribute__((used)) = "$VER: OpenEdit " "0.1.2" " 
 #include "oe_pat.h"
 #include "oe_stack.h"
 #include "ogt_font.h"
+#include "ogt_openfont.h"
 
 extern struct GfxBase *GfxBase;
 extern struct WBStartup *_WBenchMsg;
-struct Library *DiskfontBase;
+struct Library *OpenFontTextBase;     /* openfont.library 1.2: the text font */
 
 oe_app A;
 
@@ -159,9 +159,9 @@ static int open_text_font(void)
         ta.ta_YSize = A.prefs.font_size ? A.prefs.font_size : 8;
         ta.ta_Style = 0;
         ta.ta_Flags = 0;
-        if (!DiskfontBase)
-            DiskfontBase = OpenLibrary((CONST_STRPTR)"diskfont.library", 36);
-        f = DiskfontBase ? OpenDiskFont(&ta) : OpenFont(&ta);
+        if (!OpenFontTextBase)
+            OpenFontTextBase = ogt_openfont_open();
+        f = OpenFontTextBase ? ogt_openfont_font(OpenFontTextBase, &ta) : OpenFont(&ta);
     }
     if (!f) {
         struct TextFont *def = GfxBase->DefaultFont;
@@ -1717,8 +1717,8 @@ static void close_all(void)
         UnlockPubScreen(NULL, A.scr);
     for (i = 0; i < A.nkinds; i++)
         oe_kind_free(&A.kinds[i]);
-    if (DiskfontBase)
-        CloseLibrary(DiskfontBase);
+    if (OpenFontTextBase)
+        CloseLibrary(OpenFontTextBase);
 }
 
 static int run_server(char **files, int n, long line, int flags, const char *pubscreen)
