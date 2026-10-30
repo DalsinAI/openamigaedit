@@ -44,6 +44,7 @@ static const char version[] __attribute__((used)) = "$VER: OpenEdit " "0.1.2" " 
 #include "oe_pat.h"
 #include "oe_stack.h"
 #include "ogt_font.h"
+#include "ogt_look.h"
 #include "ogt_openfont.h"
 
 extern struct GfxBase *GfxBase;
@@ -51,19 +52,6 @@ extern struct WBStartup *_WBenchMsg;
 struct Library *OpenFontTextBase;     /* openfont.library 1.2: the text font */
 
 oe_app A;
-
-#define THEME_DIR "SYS:Prefs/Presets/Themes/"
-
-/* The theme when none is set or found: OpenLook's Open, light. */
-static const char fallback_theme[] =
-    "name Open\nversion 1\nfont \"DejaVu Sans\" 12\n[light]\n"
-    "window #e8eaee\ntext #121825\nlabel #2a3342\nmuted #5d6676\n"
-    "button #ffffff 0, #d5dae2 100\nbutton.text #121825\nbutton.border #8a94a6\nbutton.highlight #ffffff\n"
-    "string #ffffff\nstring.shadow #8a94a6\nstring.shine #c9cfd9\n"
-    "accent #365fa3\naccent.text #ffffff\nfill #a4bde6 0, #7d9fd5 100\nfill.text #121825\n"
-    "selection.inactive #cfdaee\nlist #ffffff\nlist.alternate #f1f4f8\nlist.header #f7f8fa 0, #dde2e9 100\n"
-    "group.line #a3abb8\ngroup.highlight #ffffff\ntab #e3e7ed 0, #cfd5de 100\ntab.text #2a3342\n"
-    "track #cdd3dc\nframe.active #3d4a63\n";
 
 static char title_buf[OE_PATH_MAX + 32];
 
@@ -112,38 +100,12 @@ static long now_secs(void)
 
 /* ---- the theme ---- */
 
+/* The theme, light or dark, the accent and Lite as OpenPrefs Look sets them
+ * (opengadtools' ogt_look_load, which every Open app shares). */
 static int load_theme(int *mode)
 {
-    char line[96], name[96] = "Open", path[200], err[96];
-    char *text = NULL, *nl;
-    long n;
-    *mode = OGT_LIGHT;
-    if (oe_read_small("ENV:OpenGadTools/Theme", line, sizeof line)) {
-        if ((nl = strchr(line, '\n'))) {
-            *nl = 0;
-            if (strncmp(nl + 1, "dark", 4) == 0)
-                *mode = OGT_DARK;
-        }
-        if (line[0])
-            snprintf(name, sizeof name, "%s", line);
-    }
-    if (strchr(name, ':'))
-        snprintf(path, sizeof path, "%s", name);
-    else
-        snprintf(path, sizeof path, "ENVARC:OpenGadTools/Themes/%s%s", name, strstr(name, ".theme") ? "" : ".theme");
-    text = oe_load_text(path, 65536, &n);
-    if (!text) {
-        snprintf(path, sizeof path, "%s%s%s", THEME_DIR, name, strstr(name, ".theme") ? "" : ".theme");
-        text = oe_load_text(path, 65536, &n);
-    }
-    if (text) {
-        int ok = ogt_theme_parse(&A.theme, text, err, sizeof err);
-        free(text);
-        if (ok)
-            return 1;
-    }
-    *mode = OGT_LIGHT;
-    return ogt_theme_parse(&A.theme, fallback_theme, err, sizeof err);
+    ogt_look_load(&A.theme, mode);
+    return 1;
 }
 
 /* The text font: the one in Settings, else the system's own text font. */
@@ -195,7 +157,7 @@ static struct NewMenu base_menu[] = {
     { NM_ITEM, NM_BARLABEL, 0, 0, 0, 0 },
     { NM_ITEM, (STRPTR)"Close tab", (STRPTR)"K", 0, 0, (APTR)C_CLOSE },
     { NM_ITEM, NM_BARLABEL, 0, 0, 0, 0 },
-    { NM_ITEM, (STRPTR)"About...", 0, 0, 0, (APTR)C_ABOUT },
+    { NM_ITEM, (STRPTR)"About...", (STRPTR)"?", 0, 0, (APTR)C_ABOUT },
     { NM_ITEM, (STRPTR)"Quit", (STRPTR)"Q", 0, 0, (APTR)C_QUIT },
     { NM_TITLE, (STRPTR)"Edit", 0, 0, 0, 0 },
     { NM_ITEM, (STRPTR)"Undo", (STRPTR)"Z", 0, 0, (APTR)C_UNDO },
