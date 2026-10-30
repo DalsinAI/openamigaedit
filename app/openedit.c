@@ -157,7 +157,7 @@ static struct NewMenu base_menu[] = {
     { NM_ITEM, NM_BARLABEL, 0, 0, 0, 0 },
     { NM_ITEM, (STRPTR)"Close tab", (STRPTR)"K", 0, 0, (APTR)C_CLOSE },
     { NM_ITEM, NM_BARLABEL, 0, 0, 0, 0 },
-    { NM_ITEM, (STRPTR)"About...", 0, 0, 0, (APTR)C_ABOUT },
+    { NM_ITEM, (STRPTR)"About...", (STRPTR)"?", 0, 0, (APTR)C_ABOUT },
     { NM_ITEM, (STRPTR)"Quit", (STRPTR)"Q", 0, 0, (APTR)C_QUIT },
     { NM_TITLE, (STRPTR)"Edit", 0, 0, 0, 0 },
     { NM_ITEM, (STRPTR)"Undo", (STRPTR)"Z", 0, 0, (APTR)C_UNDO },
