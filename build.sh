@@ -25,6 +25,6 @@ FLAGS="-noixemul -m68040 $SPECS -std=gnu99 -Wall -Werror -O2 -fno-tree-loop-dist
     "$HERE/app/oe_req.c" "$HERE/app/oe_rexx.c" "$HERE/app/oe_stack.c" \
     "$HERE/engine/oe_buf.c" "$HERE/engine/oe_doc.c" "$HERE/engine/oe_find.c" "$HERE/engine/oe_pat.c" \
     "$HERE/engine/oe_syntax.c" \
-    "$OGT/lib/ogt_theme.c" "$OGT/lib/ogt_draw.c" "$OGT/lib/ogt_font.c"
+    "$OGT/lib/ogt_theme.c" "$OGT/lib/ogt_draw.c" "$OGT/lib/ogt_font.c" "$OGT/lib/ogt_look.c"
 cp "$HERE"/kinds/*.kind "$OUT/Kinds/"
 echo "$OUT/OpenEdit ($(wc -c < "$OUT/OpenEdit") bytes)"
